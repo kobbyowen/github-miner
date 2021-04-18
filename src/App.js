@@ -1,7 +1,11 @@
 import './App.css';
+import GitMinerProvider from './GitMinerProvider'
+import GitMiner from "./GitMiner"
 
 function App() {
-  return <div>Hello App</div>
+  return <GitMinerProvider>
+    <GitMiner />
+  </GitMinerProvider>
 }
 
-export default App;
+export default App

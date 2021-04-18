@@ -1,0 +1,17 @@
+div#user-profile{
+  margin-top: 20px ;
+  height: auto;
+  overflow: hidden;
+}
+
+div#user-profile>.segment{
+  height: 100% ;
+}
+
+.high-margin-down{
+  margin-bottom: 30px;
+}
+
+div#user-details{
+  margin-top: 20px;
+}
