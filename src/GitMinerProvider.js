@@ -1,48 +1,39 @@
 import React, {createContext, useContext, useEffect, useState} from "react"
 
-
 export const GitMinerContext = createContext()
 
-export const getData = (uri, onSuccess, onError, onLoad) => {
+export const getData = (uri, onSuccess=f=>f, onError=f=>f, onLoad=f=>f) => {
+    if (!uri) return onError("No url defined")
+
     onLoad()
+    
+    const base64 = btoa(uri)
+    const data = window.sessionStorage.getItem(base64)
+    console.log("DATA HEREEEE", data)
+    if (data) return JSON.parse(data)
+
     fetch(uri)
         .then( response => response.json())
-        .then(onSuccess)
+        .then(data => {
+            window.sessionStorage.setItem(base64, JSON.stringify(data))
+            console.log("STOREDDD ", JSON.stringify(data))
+            onSuccess(data)
+        })
         .catch(onError)
 }
 
 const GitMinerProvider = ({children}) => {
 
-    const [username, setUserName ] = useState("king-d-dev")
+    const [username, setUserName ] = useState("trumpowen")
     const [userData, setUserData] = useState({})
-    const [followers, setFollowers] = useState({})
-    const [following, setFollowing] = useState({})
-    const [repos, setRepos] = useState({})
-    const [starredRepos, setStarredRepos] = useState({})
+    
 
     useEffect( () => {
         getData(`https://api.github.com/users/${username}`, setUserData, () => setUserData(undefined), ()=>setUserData({}))}
     ,[username])
 
-    // useEffect( ()=> {
-    //     getData(userData || userData.repos_url, setRepos, ()=> setRepos(undefined))}
-    // , [userData])
-    
-    // useEffect (() => {
-    //     getData(userData || userData.followers_uri, setFollowers, ()=> setFollowers(undefined))
-    // }, [userData])
-
-    // useEffect (() => {
-    //     getData(userData || userData.following_uri, setFollowing, ()=> setFollowing(undefined))
-    // }, [userData])
-    
-    // useEffect (() => {
-    //     getData(userData || userData.following_uri, setStarredRepos, ()=> setStarredRepos(undefined))
-    // }, [userData])
-    
-
     return <GitMinerContext.Provider
-            value={ {username, userData, followers, following, starredRepos, repos, setUserName } }>
+            value={ {username, userData, setUserName } }>
         {children}
     </GitMinerContext.Provider>
 }

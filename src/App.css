@@ -15,3 +15,8 @@ div#user-profile>.segment{
 div#user-details{
   margin-top: 20px;
 }
+
+div.error-page{
+  width: 100% ;
+  height: 300px;
+}

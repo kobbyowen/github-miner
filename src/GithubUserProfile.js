@@ -1,8 +1,14 @@
 import React from "react"
-import {Segment, Grid, Image, Header, List} from "semantic-ui-react"
+import {Segment, Grid, Image, Header, List, Placeholder, Icon} from "semantic-ui-react"
+import ErrorComponent from "./ErrorComponent"
 import { useGithubMiner } from "./GitMinerProvider"
 
-const GithubUserDetails = ({ bio, name, login, email, location, company, url, lastSeen, twitter }) => {
+const GithubUserDetails = ({ bio, loading, name, login, email, location, company, url, lastSeen, twitter }) => {
+
+    if (loading) return <Placeholder>
+                    <Placeholder.Line /><Placeholder.Line /><Placeholder.Line />
+                    <Placeholder.Line /><Placeholder.Line />
+                </Placeholder>
 
     const data = [
         { icon: "mail" , content : <a href={`mailto:${email}`}>login</a>, data:email},
@@ -18,7 +24,6 @@ const GithubUserDetails = ({ bio, name, login, email, location, company, url, la
             <Header.Subheader>{login}</Header.Subheader>
         </Header>
         <p className="high-margin-down">{bio}</p>
-        
         <List>
             { data.map( ( item , index) => ( item.data ?
                 <List.Item key={index}>
@@ -31,24 +36,33 @@ const GithubUserDetails = ({ bio, name, login, email, location, company, url, la
         </List>
     </>
 } 
+
+const  ProfileImage = ({loading, url}) => {
+    
+    if (loading) return <Placeholder><Placeholder.Image square /></Placeholder>
+    return <Image wrapped src={url} />
+}
+
 const GithubUserProfile = () => {
 
     const { userData } = useGithubMiner() 
+    const loading = userData && Object.keys(userData).length === 0 
 
     return <div id="user-profile">
         <Segment>
-            <Grid>
+            {
+                userData ? <Grid>
                 <Grid.Column style={{ padding:"0px"}} width={5}>
-                    <Image wrapped src={userData && userData.avatar_url} />
+                    <ProfileImage loading={loading} url={userData.avatar_url} />
                 </Grid.Column>
                 <Grid.Column width={11} style={{ paddingLeft:"30px"}}>
-                   <GithubUserDetails 
-                            {...userData} 
+                   <GithubUserDetails {...userData} loading={loading} 
                             twitter={userData.twitter_username} 
                             lastSeen={userData.updated_at} 
-                    />
+                    />  
                 </Grid.Column>
-            </Grid>
+            </Grid> : <ErrorComponent />
+            }
         </Segment>
     </div>
 }
