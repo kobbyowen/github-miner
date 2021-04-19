@@ -1,7 +1,8 @@
 import React from "react"
-import {Segment, Grid, Image, Header, List, Placeholder, Icon} from "semantic-ui-react"
+import {Segment, Grid, Image, Header, List, Placeholder} from "semantic-ui-react"
 import ErrorComponent from "./ErrorComponent"
 import { useGithubMiner } from "./GitMinerProvider"
+import moment from "moment"
 
 const GithubUserDetails = ({ bio, loading, name, login, email, location, company, url, lastSeen, twitter }) => {
 
@@ -16,7 +17,7 @@ const GithubUserDetails = ({ bio, loading, name, login, email, location, company
         { icon: "building" , content: company, data: company},
         { icon: "linkify" , content: <a href={url}>github.com</a>, data: url},
         { icon: "twitter", content: twitter, data: twitter},
-        { icon: "eye" , content: lastSeen, data: lastSeen}
+        { icon: "eye" , content:  moment(lastSeen).format("MMM Do YY"), data:lastSeen }
     ]
 
     return <>
@@ -24,7 +25,7 @@ const GithubUserDetails = ({ bio, loading, name, login, email, location, company
             <Header.Subheader>{login}</Header.Subheader>
         </Header>
         <p className="high-margin-down">{bio}</p>
-        <List>
+        <List size="big" relaxed>
             { data.map( ( item , index) => ( item.data ?
                 <List.Item key={index}>
                     <List.Icon name={item.icon} />

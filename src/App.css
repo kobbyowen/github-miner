@@ -10,6 +10,7 @@ div#user-profile>.segment{
 
 .high-margin-down{
   margin-bottom: 30px;
+  font-size: larger;
 }
 
 div#user-details{
@@ -19,4 +20,36 @@ div#user-details{
 div.error-page{
   width: 100% ;
   height: 300px;
+}
+
+div.repositories, div.users{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 30px;
+}
+
+div.repo, div.user{
+  width: 48% ;
+  margin: 0.5% ;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+div.user .content{
+  width:90%  !important
+}
+
+div.repo .list>div.item:last-of-type{
+  float: right  !important;
+}
+
+.error-page{
+
+  width: 60% ;
+  margin: 20px auto ;
+  color: red !important
 }

@@ -9,17 +9,15 @@ export const getData = (uri, onSuccess=f=>f, onError=f=>f, onLoad=f=>f) => {
     
     const base64 = btoa(uri)
     const data = window.sessionStorage.getItem(base64)
-    console.log("DATA HEREEEE", data)
-    if (data) return JSON.parse(data)
+    if (data !== null ) return onSuccess(JSON.parse(data))
 
     fetch(uri)
         .then( response => response.json())
         .then(data => {
             window.sessionStorage.setItem(base64, JSON.stringify(data))
-            console.log("STOREDDD ", JSON.stringify(data))
             onSuccess(data)
         })
-        .catch(onError)
+        .catch(()  => { console.log("ERROR ") ; onError() } )
 }
 
 const GitMinerProvider = ({children}) => {

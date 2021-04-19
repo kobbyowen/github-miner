@@ -18,9 +18,11 @@ const RepositoryList = ({count=4, url}) => {
                         loading={loading} 
                         starsCount={repo && repo.stargazers_count}
                         forkCount ={repo && repo.forks_count}
+                        updatedAt={repo && repo.updated_at}
                     />
             })
         }
+       
     </div>
 }
 

@@ -1,6 +1,7 @@
 import React from "react"
 import { Segment , Header, Image, Placeholder, Icon} from "semantic-ui-react"
 import {useGithubDataFetcher} from "./hooks"
+import {Description} from "./Repository"
 
 const UserPlaceHolder = () => {
 
@@ -19,23 +20,23 @@ const UserPlaceHolder = () => {
 const User = ({ login}) => {
 
     const [ user, ] = useGithubDataFetcher(`https://api.github.com/users/${login}`)
-    const { bio, avatar_url, name, location, commpany} = (user && user.data) || {} 
+    const { bio, avatar_url, name, location, company} = (user && user.data) || {} 
 
     const loading = Object.keys(user).length === 0 
     
     return <Segment raised className="user">
             { loading ?  <UserPlaceHolder /> :
                 <>
-                <Header as='h3'>
+                <Header as='h4'>
                     <Image circular src={avatar_url} />
                     <Header.Content>
-                        {name} . <span>{login}</span>
-                        <Header.Subheader>{bio}</Header.Subheader>
+                        {name}
+                        <Header.Subheader><Description description={bio} /></Header.Subheader>
                     </Header.Content>
                 </Header>
                 <p>
                     {location ? <><Icon name="marker"/> {location} </>: ""}
-                    {commpany ? <><Icon name="building"/> {commpany} </> : ""}
+                    {company ? <><Icon name="building"/> {company} </> : ""}
                 </p></>
             }
     </Segment>

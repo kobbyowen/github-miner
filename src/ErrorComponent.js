@@ -5,7 +5,7 @@ const ErrorComponent = ({ message="An error occured while making request"}) => {
 
     return <Segment raised className="error-page">
             <Header icon>
-                <Icon name='pdf file outline' />
+                <Icon name='ban' />
                 {message}
             </Header> 
         </Segment>

@@ -21,7 +21,7 @@ const GitSearchForm = () => {
             placeholder='Enter user name here....'
             onKeyPress={(e)=> e.key === "Enter" ? submitName() : undefined }
             ref={inputRef}
-            defaultValue="king-d-dev"
+            defaultValue="trumpowen"
          />
     </div>
 
