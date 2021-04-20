@@ -4,14 +4,13 @@ import {useGithubDataFetcher} from "./hooks"
 
 const UsersList = ( { count, url}) => {
 
-    const [ users, ] = useGithubDataFetcher(url)
-    const loading = Object.keys(users).length === 0 
-    const data = loading ? [...Array(count)].map( _ => ({})) : users.data
-    
+    const {data, loading} = useGithubDataFetcher(url)
+    const d = loading ? [...Array(count)].map( _ => ({})) : data
+
     return <div className="users">
         {
-            data.map( (user, index) => {
-                return <User {...user} key={index} />
+            d.map( (user, index) => {
+                return <User {...user}  key={index} />
             })
         }
     </div>

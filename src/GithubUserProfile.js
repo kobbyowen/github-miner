@@ -46,23 +46,25 @@ const  ProfileImage = ({loading, url}) => {
 
 const GithubUserProfile = () => {
 
-    const { userData } = useGithubMiner() 
-    const loading = userData && Object.keys(userData).length === 0 
+    const { loading, error, data } = useGithubMiner() 
+   
+    if (error) return <ErrorComponent />
 
     return <div id="user-profile">
         <Segment>
             {
-                userData ? <Grid>
+                <Grid>
                 <Grid.Column style={{ padding:"0px"}} width={5}>
-                    <ProfileImage loading={loading} url={userData.avatar_url} />
+                    <ProfileImage loading={loading} url={data.avatar_url} />
                 </Grid.Column>
                 <Grid.Column width={11} style={{ paddingLeft:"30px"}}>
-                   <GithubUserDetails {...userData} loading={loading} 
-                            twitter={userData.twitter_username} 
-                            lastSeen={userData.updated_at} 
+                   <GithubUserDetails 
+                            {...data} loading={loading} 
+                            twitter={data.twitter_username} 
+                            lastSeen={data.updated_at} 
                     />  
                 </Grid.Column>
-            </Grid> : <ErrorComponent />
+            </Grid>  
             }
         </Segment>
     </div>

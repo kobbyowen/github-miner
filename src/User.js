@@ -1,5 +1,6 @@
 import React from "react"
 import { Segment , Header, Image, Placeholder, Icon} from "semantic-ui-react"
+import ErrorComponent from "./ErrorComponent"
 import {useGithubDataFetcher} from "./hooks"
 import {Description} from "./Repository"
 
@@ -19,10 +20,10 @@ const UserPlaceHolder = () => {
 
 const User = ({ login}) => {
 
-    const [ user, ] = useGithubDataFetcher(`https://api.github.com/users/${login}`)
-    const { bio, avatar_url, name, location, company} = (user && user.data) || {} 
+    const {data, loading, error} = useGithubDataFetcher(`https://api.github.com/users/${login}`)
+    const {bio, avatar_url, name, location, company} = data 
 
-    const loading = Object.keys(user).length === 0 
+    if(error) return <ErrorComponent/>
     
     return <Segment raised className="user">
             { loading ?  <UserPlaceHolder /> :

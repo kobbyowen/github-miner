@@ -3,7 +3,8 @@ import GitMinerProvider from './GitMinerProvider'
 import GitMiner from "./GitMiner"
 
 function App() {
-  return <GitMinerProvider>
+
+  return <GitMinerProvider>  
     <GitMiner />
   </GitMinerProvider>
 }

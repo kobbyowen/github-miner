@@ -1,37 +1,14 @@
-import React, {createContext, useContext, useEffect, useState} from "react"
+import React, {createContext, useContext, useState} from "react"
+import {useGithubDataFetcher} from "./hooks"
 
 export const GitMinerContext = createContext()
 
-export const getData = (uri, onSuccess=f=>f, onError=f=>f, onLoad=f=>f) => {
-    if (!uri) return onError("No url defined")
-
-    onLoad()
-    
-    const base64 = btoa(uri)
-    const data = window.sessionStorage.getItem(base64)
-    if (data !== null ) return onSuccess(JSON.parse(data))
-
-    fetch(uri)
-        .then( response => response.json())
-        .then(data => {
-            window.sessionStorage.setItem(base64, JSON.stringify(data))
-            onSuccess(data)
-        })
-        .catch(()  => { console.log("ERROR ") ; onError() } )
-}
-
 const GitMinerProvider = ({children}) => {
 
-    const [username, setUserName ] = useState("trumpowen")
-    const [userData, setUserData] = useState({})
-    
+    const [userName, setUserName] = useState("trumpowen")
+    const {data, loading, error} = useGithubDataFetcher(`https://api.github.com/users/${userName}`)
 
-    useEffect( () => {
-        getData(`https://api.github.com/users/${username}`, setUserData, () => setUserData(undefined), ()=>setUserData({}))}
-    ,[username])
-
-    return <GitMinerContext.Provider
-            value={ {username, userData, setUserName } }>
+    return <GitMinerContext.Provider value={ {userName, setUserName, data, loading, error } }>
         {children}
     </GitMinerContext.Provider>
 }

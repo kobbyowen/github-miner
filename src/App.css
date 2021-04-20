@@ -18,8 +18,16 @@ div#user-details{
 }
 
 div.error-page{
-  width: 100% ;
-  height: 300px;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100%;
+  height: 300px ;
+}
+
+div.error-page .header{
+  width: 50%  !important;
+  height: 50% !important;
 }
 
 div.repositories, div.users{

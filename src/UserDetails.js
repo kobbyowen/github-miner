@@ -4,10 +4,10 @@ import UsersList from "./UsersList"
 
 const UserDetails =  ( { activeItem, url , count}) => {
 
-    if ( activeItem === "Repositories") return <RepositoryList url={url} count={count} /> 
-    if ( activeItem === "Starred" ) return <RepositoryList url={url} count={count} />
-    if ( activeItem === "Followers" ) return <UsersList url={url} count={count} />
-    if ( activeItem === "Following") return <UsersList url={url} count={count} />
+    if ( activeItem === "repos") return <RepositoryList url={url} count={count} /> 
+    if ( activeItem === "starred" ) return <RepositoryList url={url} count={count} />
+    if ( activeItem === "followers" ) return <UsersList url={url} count={count} />
+    if ( activeItem === "following") return <UsersList url={url} count={count} />
 
 }
 

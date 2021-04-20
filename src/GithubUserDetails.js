@@ -6,57 +6,37 @@ import UserDetails from "./UserDetails"
 
 const GithubUserDetails = () => {
 
-    const [ activeItem, setActiveItem ] = useState("Repositories")
-    const {username,userData} = useGithubMiner()
-    const handleItemClick = (e, { name }) => setActiveItem(name)
+    const [ activeItem, setActiveItem ] = useState("repos")
+    const {userName,data, loading, error} = useGithubMiner()
+    const handleItemClick = (_, { name }) => setActiveItem(name)
     
-    console.log(userData)
+    if (error) return <ErrorComponent />
     
-    if (!userData){
-      return <ErrorComponent />
+    const displayData = {
+      repos : { count : data.public_repos, url: `https://api.github.com/users/${userName}/repos`},
+      starred: { count : data && 3, url : `https://api.github.com/users/${userName}/starred`}, 
+      following: { count: data.following, url: `https://api.github.com/users/${userName}/following`}, 
+      followers: {count : data.followers, url : `https://api.github.com/users/${userName}/followers`}
     }
 
-    let url = "" 
-    let count = 0
-    let reposCount =  userData && userData.public_repos
-    let starredCount = userData && 3
-    let followCount = userData && userData.following
-    let followersCount = userData && userData.followers
-
-    if ( activeItem === "Repositories") { 
-      count = reposCount
-      url =  `https://api.github.com/users/${username}/repos`
-    }
-    if ( activeItem === "Starred") { 
-      count = starredCount
-      url = `https://api.github.com/users/${username}/starred`
-    }
-    if ( activeItem === "Following") { 
-      count = followCount
-      url = `https://api.github.com/users/${username}/following`
-    }
-    if ( activeItem === "Followers") { 
-      count = followersCount
-      url = `https://api.github.com/users/${username}/followers`
-    }
-    
     const labelPros = {color: "grey", circular: true, size: "mini" , basic:true }
+
     return <div id="user-details">
         <Menu  pointing secondary widths={4}>
-          <Menu.Item name='Repositories' active={activeItem === 'Repositories'}  onClick={handleItemClick}>
-              Repositories <Label {...labelPros} >{reposCount}</Label>
+          <Menu.Item name='repos' active={activeItem === 'repos'}  onClick={handleItemClick}>
+              Repositories <Label {...labelPros} >{displayData.repos.count}</Label>
           </Menu.Item>
-          <Menu.Item name='Starred' active={activeItem === 'Starred'} onClick={handleItemClick} >
-            Starred <Label {...labelPros} >{starredCount}</Label>
+          <Menu.Item name='starred' active={activeItem === 'starred'} onClick={handleItemClick} >
+            Starred <Label {...labelPros} >{displayData.starred.count}</Label>
           </Menu.Item>
-          <Menu.Item name='Following' active={activeItem === 'Following'} onClick={handleItemClick}>
-              Following<Label {...labelPros} >{followCount}</Label>
+          <Menu.Item name='following' active={activeItem === 'following'} onClick={handleItemClick}>
+              Following<Label {...labelPros} >{displayData.following.count}</Label>
           </Menu.Item>
-          <Menu.Item name='Followers' active={activeItem === 'Followers'} onClick={handleItemClick} >
-              Followers<Label {...labelPros} >{followersCount}</Label>
+          <Menu.Item name='followers' active={activeItem === 'followers'} onClick={handleItemClick} >
+              Followers<Label {...labelPros} >{displayData.followers.count}</Label>
           </Menu.Item>
         </Menu>
-        <UserDetails activeItem={activeItem} count={count} url={url} />
+        <UserDetails activeItem={activeItem} loading={loading} {...displayData[activeItem]}  />
     </div>
 }
 

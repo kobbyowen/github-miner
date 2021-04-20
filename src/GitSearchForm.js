@@ -5,7 +5,7 @@ import {useGithubMiner} from "./GitMinerProvider"
 const GitSearchForm = () => {
 
     const inputRef = useRef() 
-    const {setUserName, userData} = useGithubMiner() 
+    const {loading, error, setUserName} = useGithubMiner() 
 
     const submitName = () => {
         const value = inputRef.current.inputRef.current.value 
@@ -14,8 +14,8 @@ const GitSearchForm = () => {
 
     return <div id="git-searcher">
         <Input 
-            loading={userData && Object.keys(userData).length === 0 ? true : false }
-            error={userData === undefined ? true : false}
+            loading={loading }
+            error={error}
             fluid={true} 
             icon='user' 
             placeholder='Enter user name here....'
