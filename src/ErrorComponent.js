@@ -5,10 +5,10 @@ const ErrorComponent = ({ message="An error occured while making request"}) => {
 
     return <Segment raised className="error-page">
             <Header color="red" icon>
-                <Icon name='ban' />
+                <Icon name='ban'/>
                 {message}
             </Header> 
         </Segment>
 }
 
-export default ErrorComponent
+export default ErrorComponent   
